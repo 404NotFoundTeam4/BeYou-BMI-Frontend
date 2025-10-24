@@ -3,6 +3,7 @@ import "../styles/css/App.css";
 import Navbar from "../components/Navbar";
 import About from "./About";
 import Statistics from "./Statistics";
+import History from "./History";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route element={<Navbar />}>
           <Route path="/" element={<About />} />
           <Route path="/bmi/statistics" element={<Statistics />} />
+          <Route path="/bmi/history" element={<History />} />
         </Route>
       </Routes>
     </BrowserRouter>

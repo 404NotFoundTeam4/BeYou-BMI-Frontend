@@ -1,8 +1,8 @@
 import { useState } from "react";
 import BMICard from "../components/BMICard";
-
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input"
+
 function About() {
   const [weight, setWeight] = useState<string>(""); // ✅ เริ่มต้นเป็นค่าว่าง
   const [height, setHeight] = useState<string>(""); // ✅ เริ่มต้นเป็นค่าว่าง
