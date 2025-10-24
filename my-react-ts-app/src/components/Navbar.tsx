@@ -8,28 +8,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faBell,
-  faChevronUp,
-  faCartShopping,
-  faServer,
-  faBoxArchive,
-  faBoxesStacked,
-  faWrench,
-  faChartLine,
-  faClockRotateLeft,
-  faGear,
+  
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Navbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
   const closeDropdown = () => setDropdownOpen(false);
-
+  const [isopen,setopen] = useState(false)
   return (
-    <div className="flex background w-full min-h-screen">
+    <div className="flex background w-full min-h-scree  ">
       {/* ✅ Sidebar (คงเดิม) */}
-      <div className="w-[213px] bg-white text-black px-2 shadow-xl min-h-screen z-40">
+      <div className={`${isopen ? "w-60":"w-18"}  bg-white text-black  shadow-xl min-h-screen z-40`}>
         {/* ... sidebar menu ทั้งหมดของคุณคงเดิม ... */}
-        <Icon icon="weui:arrow-filled" width="12" height="24"  />
+        <div className="flex justify-end">
+        <Icon icon="weui:arrow-filled" width="20" height="40"  />
+        </div>
       </div>
 
       {/* ✅ ส่วนขวา: Navbar + Main */}
@@ -49,7 +43,7 @@ export const Navbar = () => {
               <FontAwesomeIcon icon={faBell} className="text-[22px] text-black" />
             </div>
             <div className="w-10 h-10 bg-white flex justify-center items-center rounded-full border-2 border-black">
-              <FontAwesomeIcon icon={faCartShopping} className="text-[22px] text-black" />
+             e
             </div>
 
             <div className="flex gap-1 items-center bg-white rounded-full border-2 border-black w-auto h-[46px] p-4">
