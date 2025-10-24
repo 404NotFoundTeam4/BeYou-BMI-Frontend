@@ -11,6 +11,7 @@ import {
   
 } from "@fortawesome/free-solid-svg-icons";
 
+
 export const Navbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
