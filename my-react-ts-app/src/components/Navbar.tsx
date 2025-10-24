@@ -6,6 +6,7 @@ import "../styles/css/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faBell } from "@fortawesome/free-solid-svg-icons";
 
+
 export const Navbar = () => {
   const [isopen, setopen] = useState(false);
 
