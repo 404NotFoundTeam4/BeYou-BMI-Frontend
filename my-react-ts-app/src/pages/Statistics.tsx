@@ -1,52 +1,104 @@
-import StatCard from "../components/StatCard"
+import { useEffect, useState } from "react";
+import { fetchBmiStatistics } from "../services/bmiService";   
+import StatCard from "../components/Statcard";                  
 import { BmiTrendLineChart, BmiCategoryPieChart } from "../components/BmiCharts";
-import { User2 } from "lucide-react"
-import "../styles/css/App.css";
-
-
-const trendData = [
-  { label: "ครั้งที่ 1", bmi: 26 },
-  { label: "ครั้งที่ 2", bmi: 24.5 },
-  { label: "ครั้งที่ 3", bmi: 23.2 },
-  { label: "ครั้งที่ 4", bmi: 22.1 },
-  { label: "ครั้งที่ 5", bmi: 21.8 },
-  { label: "ครั้งที่ 6", bmi: 20.6 },
-  { label: "ครั้งที่ 7", bmi: 19.9 },
-  { label: "ครั้งที่ 8", bmi: 18.7 },
-  { label: "ครั้งที่ 9", bmi: 17.2 },
-  { label: "ครั้งที่ 10", bmi: 15.8 },
-];
-
-const categoryData = [
-  { name: "น้ำหนักเกิน", value: 50, color: "#f5360bff" }, // amber
-  { name: "ปกติ", value: 50, color: "#10b981" },
-  { name: "น้ำหนักต่ำกว่าเกณฑ์", value: 50, color: "#ffb05cff" },               // emerald
-  // เพิ่มหมวดอื่น ๆ ได้ เช่น ผอมเกินไป/อ้วน ฯลฯ
-];
 
 
 export default function Statistics() {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<any>(null);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await fetchBmiStatistics();
+        if (!alive) return;
+        setData(res);
+      } catch (e: any) {
+        setErr(e?.response?.data?.message || e?.message || "Fetch failed");
+      } finally {
+        setLoading(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
+
+  if (loading) return <div className="p-6">กำลังโหลด...</div>;
+  if (err) return <div className="p-6 text-red-600">เกิดข้อผิดพลาด: {err}</div>;
+  if (!data) return <div className="p-6">ไม่พบข้อมูล</div>;
+
+  const { summary, trend, distribution } = data;
+
+  const catTH = (cat: string) => {
+    if (cat === "underweight") return "สภาพผอมเกินไป";
+    if (cat === "normal") return "ปกติ";
+    if (cat === "overweight") return "น้ำหนักเกิน";
+    if (cat === "obese") return "โรคอ้วน";
+    return cat || "-";
+  };
+
+  const donut = (distribution?.buckets || []).map((b: any) => ({
+    name: b.name,
+    value: b.value,
+    color:
+      b.name === "ปกติ"      ? "#10b981" :
+      b.name === "ต่ำกว่าเกณฑ์"  ? "#f59e0b" :
+      b.name === "สูงกว่าเกณฑ์"       ? "#ef4444" :
+      "#94a3b8",
+  }));
+
   return (
-    
-    <section className="">
-        <div>
-            <p className="text-3xl font-bold">สถิติและวิเคราะห์</p>
-            <p className="text-base ">วิเคราะห์แนวโน้มและสถิติ BMI</p>
-        </div>
+    <section >
+      <div>
+        <header className="mb-1">
+        <h2 className="text-2xl font-bold">สถิติและวิเคราะห์</h2>
+        <p className="text-sm text-muted-foreground">
+          วิเคราะห์แนวโน้มและสถิติ BMI ของคุณจากข้อมูล {summary?.records_count?.total ?? 0} รายการ
+        </p>
+      </header>
+      </div>
 
-        
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6 mb-6">
-            <StatCard title="BMI ล่าสุด" value="15.8" subtitle="สภาพผอมเกินไป" trend="up" />
-            <StatCard title="แนวโน้ม" value="-7.9" subtitle="ลดลงจากครั้งก่อน" trend="down" />
-            <StatCard title="BMI เฉลี่ย" value="19.8" subtitle="จาก 2 ครั้ง" trend="up" />
-            <StatCard title="จำนวนบันทึก" value="2" subtitle="" icon={<User2 className="h-4 w-4 text-muted-foreground" />} />
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <BmiTrendLineChart data={trendData} />
-            <BmiCategoryPieChart data={categoryData} />
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 mb-4">
+        <StatCard
+          title="BMI ล่าสุด"
+          value={summary?.latest_bmi?.value ?? "-"}
+          subtitle={catTH(summary?.latest_bmi?.category)}
+          trend={summary?.trend_change?.direction || "none"}
+        />
+        <StatCard
+          title="แนวโน้ม"
+          value={summary?.trend_change?.delta ?? "-"}
+          subtitle={
+            summary?.trend_change?.direction === "down"
+              ? "ลดลงจากครั้งก่อน"
+              : summary?.trend_change?.direction === "up"
+              ? "เพิ่มขึ้นจากครั้งก่อน"
+              : "-"
+          }
+          trend={summary?.trend_change?.direction || "none"}
+        />
+        <StatCard
+          title="BMI เฉลี่ย"
+          value={summary?.avg_bmi?.value ?? "-"}
+          subtitle={`จาก ${summary?.avg_bmi?.from_records ?? 0} ครั้ง`}
+          trend="none"
+        />
+        <StatCard
+          title="จำนวนบันทึก"
+          value={summary?.records_count?.total ?? 0}
+          /* ไม่ใส่ subtitle/icon เพื่อให้โชว์ตัวเลขล้วน */
+          trend="none"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+        <BmiTrendLineChart data={(trend && trend.points) || []} />
+        <BmiCategoryPieChart data={donut} />
+      </div>
     </section>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 // src/components/StatCard.tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"              // ถ้ามี util นี้จาก shadcn
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../components/ui/card"
+import { cn } from "../lib/utils"              // ถ้ามี util นี้จาก shadcn
 import { ArrowUpRight, ArrowDownRight, User2 } from "lucide-react"
 
 type Trend = "up" | "down" | "none"
