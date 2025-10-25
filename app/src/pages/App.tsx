@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../styles/css/App.css";
 import Navbar from "../components/Navbar";
 import About from "./About";
-import Statistics from "./Statistics";
+import Login from "./Login";
 
 function App() {
   return (
@@ -10,8 +10,11 @@ function App() {
       <Routes>
         <Route element={<Navbar />}>
           <Route path="/" element={<About />} />
-          <Route path="/bmi/statistics" element={<Statistics />} />
-        </Route>
+          
+          </Route>
+          {/* เส้นทาง Login แบบไม่ต้องมี Navbar */}
+        <Route path="/login" element={<Login />} />
+        
       </Routes>
     </BrowserRouter>
   );
