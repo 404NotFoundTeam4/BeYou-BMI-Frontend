@@ -1,48 +1,74 @@
+// src/services/bmiService.ts
 import api from "@/api/axios";
 
-const MOCK = import.meta.env.VITE_USE_MOCK === "1";
 
-const mockData = {
-  summary: {
-    latest_bmi: { value: 15.8, date: "2025-10-10", category: "underweight" },
-    trend_change: { delta: -7.9, direction: "down", since: "prev_record" },
-    avg_bmi: { value: 19.8, from_records: 2, range: "last-12m" },
-    records_count: { total: 2 },
-  },
-  trend: {
-    points: [
-      { index: 1, label: "ครั้งที่ 1", date: "2025-06-01", bmi: 26.0 },
-      { index: 2, label: "ครั้งที่ 2", date: "2025-06-15", bmi: 24.5 },
-      { index: 3, label: "ครั้งที่ 3", date: "2025-07-01", bmi: 23.3 },
-      { index: 4, label: "ครั้งที่ 4", date: "2025-07-15", bmi: 22.4 },
-      { index: 5, label: "ครั้งที่ 5", date: "2025-08-01", bmi: 22.1 },
-      { index: 6, label: "ครั้งที่ 6", date: "2025-08-15", bmi: 20.9 },
-      { index: 7, label: "ครั้งที่ 7", date: "2025-09-01", bmi: 20.1 },
-      { index: 8, label: "ครั้งที่ 8", date: "2025-09-15", bmi: 19.0 },
-      { index: 9, label: "ครั้งที่ 9", date: "2025-10-01", bmi: 17.8 },
-      { index: 10, label: "ครั้งที่ 10", date: "2025-10-10", bmi: 15.8 },
-    ],
-  },
-  distribution: {
-    unit: "percent",
-    range: "last-12m",
-    buckets: [
-      { name: "ต่ำกว่าเกณฑ์", value: 20 },
-      { name: "ปกติ", value: 50 },
-      { name: "สูงกว่าเกณฑ์", value: 30 },
-    ],
-  },
+
+
+const COLOR_MAP: Record<string, string> = {
+  underweight: "#e8d41eff",
+  normal: "#10b981",
+  overweight: "#f52a0bff",
+  obese: "#ef4444",
 };
 
-export async function fetchBmiStatistics(userId?: string) {
-  if (MOCK) {
-    // หน่วงเวลาให้เหมือนเรียก API จริง
-    await new Promise((r) => setTimeout(r, 400));
-    return mockData;
+const TH_LABEL: Record<string, string> = {
+  underweight: "น้ำหนักต่ำกว่าเกณฑ์",
+  normal: "ปกติ",
+  overweight: "น้ำหนักเกิน",
+  obese: "โรคอ้วน",
+};
+
+function normalizeResponse(raw: any) {
+  const d = raw?.data || {};
+
+  // summary_cards
+  const latestVal = d?.summary_cards?.latest_bmi?.value ?? null;
+  const latestCat = d?.summary_cards?.latest_bmi?.category ?? null;
+  const trendDelta = d?.summary_cards?.trend ?? 0;
+  const avg = d?.summary_cards?.bmi_average ?? null;
+  const total = d?.summary_cards?.total_records ?? 0;
+  const direction = trendDelta > 0 ? "up" : trendDelta < 0 ? "down" : "none";
+
+  // line_graph -> points
+  const labels: any[] = d?.line_graph?.labels ?? [];
+  const values: any[] = d?.line_graph?.data ?? [];
+  const points = labels.map((label, i) => ({
+    label,
+    date: null,
+    bmi: Number(values[i] ?? null),
+  }));
+
+  // pie_chart -> buckets
+  const pie = d?.pie_chart || {};
+  const buckets = Object.keys(pie).map((name) => ({
+    name,
+    label: TH_LABEL[name] ?? name,      // ภาษาไทย
+    value: Number(pie[name] ?? 0),      // count
+    color: COLOR_MAP[name] || "#94a3b8",
+  }));
+
+  return {
+    summary: {
+      latest_bmi: { value: latestVal, date: null, category: latestCat },
+      trend_change: { delta: trendDelta, direction, since: "prev_record" },
+      avg_bmi: { value: avg, from_records: total, range: "last-12m" },
+      records_count: { total },
+    },
+    trend: { points },
+    distribution: { unit: "count", range: "last-12m", buckets },
+  };
+}
+
+export async function fetchBmiStatistics(usId?: number): Promise<any> {
+  const body = { us_id: usId ?? 1 };
+  const res = await api.post("http://localhost:4004/api/bmi/statistics", body, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  
+  if (res.data?.status === "success") {
+    return normalizeResponse(res.data);
   }
-  const url = userId
-    ? `/bmi/statistics?userId=${encodeURIComponent(userId)}`
-    : "/bmi/statistics";
-  const { data } = await api.get(url);
-  return data;
+  // กรณี BE ส่ง error format อื่น ๆ
+  throw new Error(res.data?.message || "API error");
 }

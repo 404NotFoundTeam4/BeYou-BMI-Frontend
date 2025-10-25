@@ -7,22 +7,22 @@ import {
 
 export function BmiTrendLineChart({ data }: { data: { label: string; bmi: number }[] }) {
   return (
-    <Card className="rounded-2xl border border-gray-200 shadow-sm h-[600] flex flex-col">
+    <Card className="flex flex-col rounded-2xl border shadow-sm
+                     h-[600px]"> 
       <CardHeader className="pb-2">
         <CardTitle className="text-[15px]">แนวโน้ม BMI ล่าสุด</CardTitle>
         <CardDescription className="text-[12px]">แสดงข้อมูล 10 ครั้งล่าสุด</CardDescription>
       </CardHeader>
 
-      {/* ให้ส่วนกราฟกินพื้นที่ที่เหลือทั้งหมด */}
-      <CardContent className="flex-1 p-0">
-        <div className="h-full">
+      <CardContent className="flex-1 p-0 min-h-0"> 
+        <div className="h-full min-h-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 0, right: 12, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="label" tick={{ fontSize: 12 }} stroke="#9ca3af" />
-              <YAxis tick={{ fontSize: 12 }} stroke="#9ca3af" />
-              <Tooltip contentStyle={{ fontSize: 12 }} />
-              <Line type="monotone" dataKey="bmi" stroke="#14b8a6" strokeWidth={3} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="bmi" stroke="#14b8a6" strokeWidth={3} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -48,7 +48,7 @@ export function BmiCategoryPieChart({
               <Pie 
                 data={data} 
                 dataKey="value" 
-                nameKey="name" 
+                nameKey="label" 
                 innerRadius={70} 
                 outerRadius={200} 
                 paddingAngle={2}>
