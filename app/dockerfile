@@ -1,0 +1,28 @@
+# ใช้ Node เวอร์ชันเบา
+FROM node:22-alpine
+
+# ติดตั้งเครื่องมือที่ช่วยให้ Vite ตรวจจับการเปลี่ยนแปลงไฟล์ใน volume ได้
+RUN apk add --no-cache bash inotify-tools
+
+# ตั้งค่าที่ทำงาน
+WORKDIR /app
+
+# คัดลอก package.json ก่อน
+COPY package*.json ./
+
+# ติดตั้ง dependencies
+RUN npm install
+
+# คัดลอกทุกไฟล์ (เว้น node_modules)
+COPY . .
+
+# เปิดพอร์ต vite dev server
+EXPOSE 5173
+
+# ตั้งค่า environment ให้ vite ทำงานบน host ทุก IP
+ENV HOST=0.0.0.0
+ENV PORT=5173
+ENV CHOKIDAR_USEPOLLING=true
+
+# คำสั่งเริ่ม server
+CMD ["npm", "run", "dev"]
