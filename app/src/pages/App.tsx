@@ -5,6 +5,9 @@ import About from "./About";
 import Login from "./Login";
 import ProtectedRoute from "../middlewares/ProtectedRoute"
 import Statistics from "./Statistics";
+import Navbar from "../components/Navbar";
+import About from "./About";
+import BMIForm from "./BMIform";
 
 function App() {
   return (
@@ -24,6 +27,12 @@ function App() {
           
         </Route>
       </Routes>
+      <Route element={<Navbar />}>
+        <Route path="/" element={<About />} />
+        <Route path="/form" element={<BMIForm />} />
+      </Route>
+    </Routes>
+
     </BrowserRouter>
   );
 }
