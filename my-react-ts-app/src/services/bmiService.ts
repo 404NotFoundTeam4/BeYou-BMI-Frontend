@@ -1,9 +1,6 @@
 // src/services/bmiService.ts
 import api from "@/api/axios";
 
-
-
-
 const COLOR_MAP: Record<string, string> = {
   underweight: "#e8d41eff",
   normal: "#10b981",

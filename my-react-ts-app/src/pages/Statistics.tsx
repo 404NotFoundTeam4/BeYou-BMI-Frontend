@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchBmiStatistics } from "../services/bmiService";
+import { fetchBmiStatistics } from "../services/bmiService.ts";
 import StatCard from "../components/Statcard"; 
 import { BmiTrendLineChart, BmiCategoryPieChart } from "../components/BmiCharts";
 
