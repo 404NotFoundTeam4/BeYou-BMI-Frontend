@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"; 
-import BeYouLogo from "../assets/images/BeYouBMI.webp"; // path relative จาก Login.tsx
+import BeYouLogo from "../assets/images/BeYouBMI.webp";
 
 const Index = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
-  const [dob, setDob] = useState(""); // เก็บวันเดือนปีเกิด
+  const [dob, setDob] = useState(""); 
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedUser = localStorage.getItem("userData");
@@ -14,32 +15,44 @@ const Index = () => {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!username.trim() || !email.trim() || !gender || !dob) {
       alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
       return;
     }
 
-    const birthYear = new Date(dob).getFullYear();
-    const currentYear = new Date().getFullYear();
-    const age = currentYear - birthYear;
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:4004/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, gender, dob }),
+      });
 
-    const mockUser = {
-      us_id: Math.floor(Math.random() * 10000),
-      us_name: username,
-      us_email: email,
-      us_gender: gender,
-      us_dob: dob,
-      us_age: age,
-      created_at: new Date().toISOString(),
-      last_access: new Date().toISOString(),
-    };
+      if (!response.ok) {
+        const errMsg = await response.text();
+        throw new Error(errMsg || "เข้าสู่ระบบไม่สำเร็จ");
+      }
 
-    localStorage.setItem("userData", JSON.stringify(mockUser));
-    console.log("✅ User saved:", mockUser);
-    alert(
-      `เข้าสู่ระบบสำเร็จ! อายุ: ${age} ปี (ข้อมูลถูกจำลองเก็บไว้ใน localStorage)`
-    );
+      const user = await response.json();
+
+      // บันทึกข้อมูลจาก backend ลง localStorage
+      localStorage.setItem("userData", JSON.stringify(user));
+
+      alert(`เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับ ${user.us_username}`);
+      console.log("✅ User from backend:", user);
+
+      // เคลียร์ form
+      setUsername("");
+      setEmail("");
+      setGender("");
+      setDob("");
+    } catch (error) {
+      console.error(error);
+      alert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -48,7 +61,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-gradient-to-br from-[#BFFFE0] via-[#80DFFF] to-[#FFFFFF] animate-gradient-shift">
-      
       {/* Floating Orbs */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-[#BFFFE0]/30 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#80DFFF]/30 rounded-full blur-3xl animate-float"
@@ -58,88 +70,26 @@ const Index = () => {
       {/* Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-2xl animate-fade-in">
-          
           {/* Login Card */}
           <div className="justify-center bg-white rounded-3xl pt-12 px-20 pb-20 shadow-2xl flex flex-col overflow-hidden">
             {/* Top Logo */}
             <div className="w-full flex justify-center items-center pb-6 border-b border-gray-200 mb-6">
-              <img
-                src={BeYouLogo}
-                alt="BeYou BMI Logo"
-                className="h-16 md:h-20 object-contain"
-              />
+              <img src={BeYouLogo} alt="BeYou BMI Logo" className="h-16 md:h-20 object-contain" />
             </div>
 
             {/* Form */}
             <div className="flex flex-col space-y-6">
-              {/* Username */}
-              <div className="flex flex-col">
-                <label htmlFor="username" className="text-gray-700 font-medium">
-                  Username
-                </label>
-                <input
-                  id="username"
-                  type="text"
-                  placeholder="กรอกชื่อผู้ใช้งาน"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full h-12 px-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#80DFFF] rounded-lg"
-                />
-              </div>
+              <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} onKeyPress={handleKeyPress} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
+              <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} onKeyPress={handleKeyPress} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
+              <select value={gender} onChange={e => setGender(e.target.value)} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]">
+                <option value="">เลือกเพศ</option>
+                <option value="ชาย">ชาย</option>
+                <option value="หญิง">หญิง</option>
+              </select>
+              <input type="date" value={dob} onChange={e => setDob(e.target.value)} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
 
-              {/* Email */}
-              <div className="flex flex-col">
-                <label htmlFor="email" className="text-gray-700 font-medium">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="กรอกอีเมลของคุณ"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
-                />
-              </div>
-
-              {/* Gender */}
-              <div className="flex flex-col">
-                <label htmlFor="gender" className="text-gray-700 font-medium">
-                  เพศ
-                </label>
-                <select
-                  id="gender"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
-                >
-                  <option value="">เลือกเพศ</option>
-                  <option value="ชาย">ชาย</option>
-                  <option value="หญิง">หญิง</option>
-                </select>
-              </div>
-
-              {/* Date of Birth */}
-              <div className="flex flex-col">
-                <label htmlFor="dob" className="text-gray-700 font-medium">
-                  วันเกิด
-                </label>
-                <input
-                  id="dob"
-                  type="date"
-                  value={dob}
-                  onChange={(e) => setDob(e.target.value)}
-                  className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
-                />
-              </div>
-
-              {/* Login Button */}
-              <button
-                onClick={handleLogin}
-                className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 hover:opacity-95 text-white font-semibold text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-              >
-                เข้าสู่ระบบ
+              <button onClick={handleLogin} disabled={loading} className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:opacity-95 hover:scale-[1.02] transition-all duration-300">
+                {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
               </button>
             </div>
           </div>
