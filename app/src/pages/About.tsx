@@ -2,6 +2,10 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input"
 import { useState } from "react";
 import BMICard from "../components/BMICard";
+import { useState } from "react";
+import BMICard from "../components/BMICard";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input"
 
 function About() {
   const [weight, setWeight] = useState<string>(""); // ✅ เริ่มต้นเป็นค่าว่าง
@@ -23,12 +27,44 @@ function About() {
   };
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-      <Input type="email" placeholder="Email" />
-    </div>
+    <div>
+      <h2 className="text-center mt-5 text-lg font-semibold">คำนวณค่า BMI</h2>
 
-    
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center mt-5 gap-4"
+      >
+        <div className="flex gap-4">
+          <input
+            type="number"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            placeholder="น้ำหนัก (กก.)"
+            className="border border-gray-300 rounded-lg p-2 w-40"
+          />
+          <input
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            placeholder="ส่วนสูง (ซม.)"
+            className="border border-gray-300 rounded-lg p-2 w-40"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+        >
+          คำนวณ BMI
+        </button>
+      </form>
+
+      {submitted && (
+        <div className="flex justify-center mt-10">
+          <BMICard weight={Number(weight)} height={Number(height)} />
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -6,6 +6,7 @@ import Login from "./Login";
 import ProtectedRoute from "../middlewares/ProtectedRoute";
 import Statistics from "./Statistics";
 import BMIForm from "./BMIform";
+import History from "./History";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<About />} />
           <Route path="/bmi/statistics" element={<Statistics />} />
           <Route path="/form" element={<BMIForm />} />
+          <Route path="/bmi/history" element={<History />} />
         </Route>
       </Routes>
     </BrowserRouter>
