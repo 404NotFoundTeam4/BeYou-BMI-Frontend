@@ -12,17 +12,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Navbar />}>
-          <Route path="/about" element={<About />} />
-        </Route>
+      
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Login />} />
+      <Route element ={<ProtectedRoute/>}>
         <Route element={<Navbar />}>
-          <Route path="/" element={<About />} />
           <Route path="/bmi/statistics" element={<Statistics />} />
-          <Route path="/form" element={<BMIForm />} />
+          <Route path="/bmi/form" element={<BMIForm />} />
           <Route path="/bmi/history" element={<History />} />
         </Route>
+      </Route>
       </Routes>
     </BrowserRouter>
   );

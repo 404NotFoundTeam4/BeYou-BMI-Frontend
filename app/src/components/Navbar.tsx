@@ -99,7 +99,7 @@ export const Navbar = () => {
 
           <div className="flex flex-col gap-4 mt-4 px-2">
             <Link
-              to="/home"
+              to="/bmi/form"
               className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
             >
               <FontAwesomeIcon
@@ -116,7 +116,7 @@ export const Navbar = () => {
             </Link>
 
             <Link
-              to="/history"
+              to="/bmi/history"
               className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
             >
               <FontAwesomeIcon

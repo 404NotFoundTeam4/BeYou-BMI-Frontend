@@ -7,11 +7,11 @@ import { fetchBmiHistory } from "../services/history";
 function History() {
   const [history, setHistory] = useState<BMIRecord[]>([]);
   const [search, setSearch] = useState("");
-
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetchBmiHistory("johndoe@example.com");
+        const res = await fetchBmiHistory(userData.us_email);
         setHistory(res); // ✅ ไม่ต้อง map แล้ว เพราะ type ตรงกับ backend
       } catch (error) {
         console.error("โหลดข้อมูลไม่สำเร็จ:", error);

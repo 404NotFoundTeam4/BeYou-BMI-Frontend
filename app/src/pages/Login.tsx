@@ -7,7 +7,7 @@ const Index = () => {
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState(""); // เก็บวันเดือนปีเกิด
-  localStorage.clear();
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -41,7 +41,7 @@ const Index = () => {
     // // };
 
     localStorage.setItem("userData", JSON.stringify(res));
-    navigate("/about");
+    navigate("/bmi/form");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
