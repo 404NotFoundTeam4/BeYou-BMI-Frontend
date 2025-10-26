@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "../styles/css/icon.css";
 import "../styles/css/Navbar.css";
@@ -8,25 +8,44 @@ import {
   faHome,
   faChartLine,
   faClipboardList,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import logoname from "../assets/images/BeYouBMI-name.png";
 import logo from "../assets/images/BeYouBMI-logo.png";
-import profile from "../assets/images/gender/none.png";
+import profilemale from "../assets/images/gender/male.png";
+import profilefemale from "../assets/images/gender/female.png";
 export const Navbar = () => {
   const [isopen, setopen] = useState(true);
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+   const [showHeart, setShowHeart] = useState(false);
+    useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
 
+    if (isopen) {
+      // ✅ รอ sidebar เปิดเต็มก่อนค่อยแสดง heart-rate (300ms ตรงกับ duration ของ sidebar)
+      timer = setTimeout(() => setShowHeart(true), 300);
+    } else {
+      // ✅ ปิดทันทีเมื่อ sidebar ปิด
+      setShowHeart(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isopen]);
+  const logout =() =>{
+    localStorage.clear();
+  }
   return (
     <div className="flex w-full min-h-screen bg-[#FAFAFA]">
       {/* Sidebar */}
       <div className="relative">
         <div
           className={`${
-            isopen ? "w-60" : "w-22"
+            isopen ? "w-60" : "w-23"
           }  text-white shadow-xl min-h-screen z-40 flex flex-col transition-all duration-300 bg-[#147e65]`}
         >
           <button
             onClick={() => setopen(!isopen)}
-            className="absolute mt-8 -right-4  h-10 w-10   bg-[#099c7a] flex items-center justify-center rounded-full shadow-md hover:bg-[#0d6551] transition-all"
+            className="absolute mt-8 -right-4  h-10 w-10 z-11   bg-[#099c7a] flex items-center justify-center rounded-full shadow-md hover:bg-[#0d6551] transition-all"
           >
             <Icon
               icon="weui:arrow-filled"
@@ -38,8 +57,42 @@ export const Navbar = () => {
             />
           </button>
 
-          <div className="flex items-center justify-between h-25 w-full px-4 border-b-2 ">
-            <img src={logo} alt="" className="h-13 w-13" />
+          <div className="flex items-center justify-between h-25 w-full px-4 border-b-2 gap-2 relative z-10 ">
+            <img src={logo} alt="" className="h-13 w-13 z-10 " />
+            <section>
+              <div className="container">
+                <div className="content">
+                  {showHeart && (
+                  <div className="heart-rate">
+                    <svg
+                      xml:space="preserve"
+                      viewBox="0 0 150 73"
+                      height="73px"
+                      width="150px"
+                      y="0px"
+                      x="0px"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      xmlns="http://www.w3.org/2000/svg"
+                      version="1.0"
+                    >
+                      <polyline
+                        points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 57.771,45.486 62.838,55.622 71.959,9 80.067,
+    63.729 84.122,45.486 97.297,45.486 103.379,40.419 110.473,45.486 150,45.486"
+                        stroke-miterlimit="10"
+                        stroke-width="3"
+                        stroke="#1ADBB1"
+                        fill="none"
+                      ></polyline>
+                    </svg>
+
+                    <div className="fade-in"></div>
+
+                    <div className="fade-out"></div>
+                  </div>
+                  )}
+                </div>
+              </div>
+            </section>
 
             {/* {isopen && <p className="font-bold text-3xl">Logo</p>} */}
           </div>
@@ -95,6 +148,25 @@ export const Navbar = () => {
                 </span>
               )}
             </Link>
+               <Link
+              to="/"
+              onClick={logout}
+              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
+            >
+
+              <FontAwesomeIcon
+                icon={faRightFromBracket}
+                className="text-[30px] min-w-[30px] "
+              />
+             
+              {isopen && (
+                <span
+                  className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
+                >
+                  ออกจากระบบ
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </div>
@@ -102,17 +174,20 @@ export const Navbar = () => {
       {/*  ส่วนขวา (Navbar + Main) */}
       <div className="flex flex-col flex-1 min-h-screen">
         {/* Navbar */}
-        <div className="w-full bg-[linear-gradient(145deg,#EFF9F8_0%,#EAF6F4_100%)] border-2 border-y-[#1be2c1] text-[#1be2c1] px-4 py-2 h-25 flex justify-between items-center top-0 left-0">
+        <div className="w-full bg-[linear-gradient(145deg,#EFF9F8_0%,#EAF6F4_100%)] border-2 border-y-[#1be2c1] text-[#147e65] px-4 py-2 h-25 flex justify-between items-center top-0 left-0">
           <div className="flex  ml-5   w-[200px] h-full rounded-full  items-center justify-center">
             <img src={logoname} alt="" />
           </div>
           <div className="flex items-center justify-center gap-3 mr-15">
-            <img src={profile} alt="" className="w-12 h-12 rounded-full" />
+            <img
+              src={userData.us_gender == "ชาย" ? profilemale : profilefemale}
+              alt=""
+              className="w-15 h-15 rounded-full"
+            />
             <span className="text-[18px] font-normal flex flex-col ">
               <p>สวัสดี</p>
-              <p className="text-[18px] font-semibold">username</p>
+              <p className="text-[18px] font-semibold">{userData.us_name}</p>
             </span>
-           
           </div>
         </div>
 
