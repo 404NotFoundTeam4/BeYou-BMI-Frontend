@@ -21,6 +21,7 @@ function App() {
         <Route element={<Navbar />}>
           <Route path="/" element={<About />} />
           <Route path="/bmi/statistics" element={<Statistics />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

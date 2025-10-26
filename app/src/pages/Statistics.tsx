@@ -7,11 +7,13 @@ export default function Statistics() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<any>(null);
+  const user = JSON.parse(localStorage.getItem("userData") || "{}");
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetchBmiStatistics();
+        const res = await fetchBmiStatistics(user.us_id);
+        console.log(res)
         setData(res);
       } catch (e: any) {                 
         setErr(e?.response?.data?.message || e?.message || "Fetch failed");

@@ -17,7 +17,6 @@ import profilefemale from "../assets/images/gender/female.png";
 export const Navbar = () => {
   const [isopen, setopen] = useState(true);
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  console.log(userData)
    const [showHeart, setShowHeart] = useState(false);
     useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -36,13 +35,13 @@ export const Navbar = () => {
     localStorage.clear();
   }
   return (
-    <div className="flex w-full min-h-screen bg-[#FAFAFA]">
+    <div className="flex w-full  bg-[#FAFAFA]">
       {/* Sidebar */}
-      <div className="relative">
+     
         <div
           className={`${
             isopen ? "w-60" : "w-23"
-          }  text-white shadow-xl min-h-screen z-40 flex flex-col transition-all duration-300 bg-[#147e65]`}
+          }   text-white min-h-screen relative  shadow-xl  z-40 flex flex-col transition-all duration-300 bg-[#147e65]`}
         >
           <button
             onClick={() => setopen(!isopen)}
@@ -134,7 +133,7 @@ export const Navbar = () => {
             </Link>
 
             <Link
-              to="/stats"
+              to="/bmi/statistics"
               className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
             >
               <FontAwesomeIcon
@@ -145,7 +144,7 @@ export const Navbar = () => {
                 <span
                   className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
                 >
-                  สถิติ
+                  สถิติและวิเคราะห์
                 </span>
               )}
             </Link>
@@ -170,7 +169,7 @@ export const Navbar = () => {
             </Link>
           </div>
         </div>
-      </div>
+     
 
       {/*  ส่วนขวา (Navbar + Main) */}
       <div className="flex flex-col flex-1 min-h-screen">
