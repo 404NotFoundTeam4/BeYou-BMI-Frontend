@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchBmiStatistics } from "../services/bmiService.ts";
-import StatCard from "../components/Statcard"; 
+import { fetchBmiStatistics } from "../services/bmiService";
+import StatCard from "../components/Statcard"; // S และ C ตัวใหญ่
 import { BmiTrendLineChart, BmiCategoryPieChart } from "../components/BmiCharts";
 
 export default function Statistics() {

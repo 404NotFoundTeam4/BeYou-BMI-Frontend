@@ -58,7 +58,7 @@ function normalizeResponse(raw: any) {
 
 export async function fetchBmiStatistics(usId?: number): Promise<any> {
   const body = { us_id: usId ?? 1 };
-  const res = await api.post("http://localhost:4004/api/bmi/statistics", body, {
+  const res = await api.post("/bmi/statistics", body, {
     headers: { "Content-Type": "application/json" },
   });
 

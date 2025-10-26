@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/card"
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./ui/card"
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   PieChart, Pie, Cell, Legend
