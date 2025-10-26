@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useActionData } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "../styles/css/icon.css";
@@ -17,6 +17,7 @@ import profilefemale from "../assets/images/gender/female.png";
 export const Navbar = () => {
   const [isopen, setopen] = useState(true);
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  console.log(userData)
    const [showHeart, setShowHeart] = useState(false);
     useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -180,13 +181,13 @@ export const Navbar = () => {
           </div>
           <div className="flex items-center justify-center gap-3 mr-15">
             <img
-              src={userData.us_gender == "ชาย" ? profilemale : profilefemale}
+              src={userData.us_gender == "MALE" ? profilemale : profilefemale}
               alt=""
               className="w-15 h-15 rounded-full"
             />
             <span className="text-[18px] font-normal flex flex-col ">
               <p>สวัสดี</p>
-              <p className="text-[18px] font-semibold">{userData.us_name}</p>
+              <p className="text-[18px] font-semibold">{userData.us_username}</p>
             </span>
           </div>
         </div>
