@@ -6,11 +6,13 @@ export default function BMIForm(): React.JSX.Element {
   const [bmi, setBmi] = useState<number | null>(null);
   const [category, setCategory] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const us_email = sessionStorage.getItem("us_email") || "";
 
-  const userEmail = "johndoe@example.com"; // ตัวอย่าง email
 
-  // ✅ ประกาศ mapping อังกฤษ -> ไทย
-  const categoryTH: Record<string, string> = {
+  // ใส่ email สำหรับส่งไป backend (เปลี่ยนเป็น email จริงของผู้ใช้)
+  const userEmail = us_email;  // ตัวอย่าง email
+
+    const categoryTH: Record<string, string> = {
     UNDERWEIGHT: "ผอม",
     NORMAL: "ปกติ",
     OVERWEIGHT: "ท้วม",
@@ -30,20 +32,23 @@ export default function BMIForm(): React.JSX.Element {
 
     try {
       const response = await fetch("http://localhost:4004/api/bmi/calculate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          us_email: userEmail,
-          bmi_weight: w,
-          bmi_height: h,
-        }),
-      });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    us_email: userEmail,
+    bmi_weight: w,
+    bmi_height: h,
+    
+  }),
+});
 
-      if (!response.ok) throw new Error("เกิดข้อผิดพลาดจากเซิร์ฟเวอร์");
+if (!response.ok) throw new Error("เกิดข้อผิดพลาดจากเซิร์ฟเวอร์");
 
-      const data = await response.json();
-      setBmi(data.data.data.bmi_value);
-      setCategory(data.data.data.bmi_category);
+
+const data = await response.json();// ดูข้อมูลจาก backend
+setBmi(data.data.data.bmi_value);
+setCategory(data.data.data.bmi_category);
+
 
     } catch (err) {
       console.error(err);
@@ -90,6 +95,7 @@ export default function BMIForm(): React.JSX.Element {
             </div>
           </div>
 
+
           <div className="flex items-center gap-6 mb-4">
             <button
               onClick={calculateBMI}
@@ -112,9 +118,11 @@ export default function BMIForm(): React.JSX.Element {
               <h3 className="text-xl font-bold text-gray-800 mb-6">ผลลัพธ์</h3>
               <div className="flex items-center gap-6 mb-2">
                 <div className="text-5xl font-bold text-cyan-400">{bmi}</div>
-                <div className="text-lg text-gray-700 bg-cyan-100 px-4 py-2 rounded-full">
+                 <div className="text-lg text-gray-700 bg-cyan-100 px-4 py-2 rounded-full">
                   {categoryTH[category] || category}
                 </div>
+               
+        
               </div>
               <p className="mt-4 text-gray-600">
                 น้ำหนัก: {weight} กก. | ส่วนสูง: {height} ซม.
@@ -125,4 +133,4 @@ export default function BMIForm(): React.JSX.Element {
       </div>
     </div>
   );
-}
+} 
