@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BMIHistory from "../components/BMIHistory";
 import type { BMIRecord } from "../components/BMIHistory";
 import { fetchBmiHistory } from "../services/history";
