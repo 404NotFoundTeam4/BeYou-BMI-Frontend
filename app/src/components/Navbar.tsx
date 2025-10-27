@@ -103,7 +103,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
                 isActive
-                  ? "bg-[#0a9956] text-white"
+                  ? "bg-[#055540] text-white"
                   : "hover:bg-[#0d6551] text-white"
               }`
             }
@@ -126,7 +126,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
                 isActive
-                  ? "bg-[#0a9956] text-white"
+                  ? "bg-[#055540] text-white"
                   : "hover:bg-[#0d6551] text-white"
               }`
             }
@@ -149,7 +149,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
                 isActive
-                  ? "bg-[#0a9956] text-white"
+                  ? "bg-[#055540] text-white"
                   : "hover:bg-[#0d6551] text-white"
               }`
             }
@@ -172,7 +172,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
                 isActive
-                  ? "bg-[#0a9956] text-white"
+                  ? "bg-[#055540] text-white"
                   : "hover:bg-[#0d6551] text-white"
               }`
             }
