@@ -1,5 +1,3 @@
-import { Trash2 } from "lucide-react";
-
 export type BMIRecord = {
   bmi_id: number;
   bmi_created_at: string;
@@ -13,6 +11,7 @@ export type BMIRecord = {
 
 type BMIHistoryProps = {
   history: BMIRecord[];
+  onDelete?: (bmi_id: number) => void;
 };
 
 function BMIHistory({ history }: BMIHistoryProps) {

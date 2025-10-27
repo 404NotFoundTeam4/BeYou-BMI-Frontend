@@ -1,4 +1,4 @@
-import { Link, Outlet, useActionData } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "../styles/css/icon.css";
@@ -71,7 +71,7 @@ export const Navbar = () => {
                       width="150px"
                       y="0px"
                       x="0px"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
                       xmlns="http://www.w3.org/2000/svg"
                       version="1.0"
                     >

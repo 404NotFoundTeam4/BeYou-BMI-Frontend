@@ -39,8 +39,8 @@ function normalizeResponse(raw: any) {
   const pie = d?.pie_chart || {};
   const buckets = Object.keys(pie).map((name) => ({
     name,
-    label: TH_LABEL[name] ?? name,      // ภาษาไทย
-    value: Number(pie[name] ?? 0),      // count
+    label: TH_LABEL[name] ?? name, // ภาษาไทย
+    value: Number(pie[name] ?? 0), // count
     color: COLOR_MAP[name] || "#94a3b8",
   }));
 
@@ -56,13 +56,12 @@ function normalizeResponse(raw: any) {
   };
 }
 
-export async function fetchBmiStatistics(usId?: number): Promise<any> { 
+export async function fetchBmiStatistics(usId?: number): Promise<any> {
   const body = { us_id: usId };
   const res = await api.post("/bmi/statistics", body, {
     headers: { "Content-Type": "application/json" },
   });
 
-  
   if (res.data?.status === "success") {
     return normalizeResponse(res.data);
   }

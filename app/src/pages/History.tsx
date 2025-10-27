@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BMIHistory from "../components/BMIHistory";
 import type { BMIRecord } from "../components/BMIHistory";
-import { Trash } from "lucide-react";
 import { fetchBmiHistory } from "../services/history";
 
 function History() {
