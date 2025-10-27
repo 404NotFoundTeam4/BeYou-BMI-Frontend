@@ -3,7 +3,6 @@ import BeYouLogo from "../assets/images/BeYouBMI.webp"; // path relative จา�
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/login.js";
 
-
 const Index = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

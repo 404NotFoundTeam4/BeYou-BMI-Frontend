@@ -7,10 +7,6 @@ export default function BMIForm(): React.JSX.Element {
   const [category, setCategory] = useState<string>("");
   const [error, setError] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  
-
- 
-  
 
   const categoryTH: Record<string, string> = {
     UNDERWEIGHT: "ผอม",
