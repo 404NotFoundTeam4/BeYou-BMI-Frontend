@@ -1,0 +1,69 @@
+/* From Uiverse.io by forzayt */ 
+/* Specific styles for .container */
+.container {
+  background: transparent none repeat scroll 0 0;
+  color: #999;
+  font-size: 100%;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  
+  
+}
+
+/* Specific styles for .heart-rate container */
+.container .heart-rate {
+  width: 150px;
+  height: 73px;
+  position: relative;
+  margin: 20px auto;
+}
+
+/* Styles for the fade-in animation */
+.container .heart-rate .fade-in {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #147e65;
+  top: 0;
+  right: 0;
+  animation: heartRateIn 2s linear infinite;
+}
+
+/* Styles for the fade-out animation */
+.container .heart-rate .fade-out {
+  position: absolute;
+  width: 100%; /* Adjusted width to ensure animation space */
+  height: 100%;
+  background-color: #147e65;
+  top: 0;
+  right: -120%;
+  animation: heartRateOut 2s linear infinite;
+}
+
+/* Keyframes for the heartRateIn animation */
+@keyframes heartRateIn {
+  0% {
+    width: 100%;
+  }
+  50% {
+    width: 0;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+/* Keyframes for the heartRateOut animation */
+@keyframes heartRateOut {
+  0% {
+    left: -120%;
+  }
+  30% {
+    left: -120%;
+  }
+  100% {
+    left: 0;
+  }
+}

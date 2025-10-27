@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  react-app:
+    container_name: dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app             # mount code ทั้งหมดเข้ามา
+      - /app/node_modules  # ป้องกัน node_modules conflict
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # สำคัญ! ช่วยให้ auto reload ทำงานใน Docker
+      - WATCHPACK_POLLING=true
+      - VITE_FORCE_HMR=true
+    command: ["npm", "run", "dev", "--", "--host"]
