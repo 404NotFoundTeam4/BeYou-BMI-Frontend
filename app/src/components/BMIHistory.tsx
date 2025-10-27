@@ -60,13 +60,13 @@ function BMIHistory({ history, onDelete }: BMIHistoryProps) {
                 }`}
               >
                 {record.bmi_category === "UNDERWEIGHT"
-                  ? "น้ำหนักต่ำกว่าเกณฑ์"
+                  ? "ผอม"
                   : record.bmi_category === "NORMAL"
                   ? "ปกติ"
                   : record.bmi_category === "OVERWEIGHT"
-                  ? "อ้วน"
+                  ? "ท้วม"
                   : record.bmi_category === "OBESE"
-                  ? "น้ำหนักเกิน"
+                  ? "อ้วน"
                   : ""}
               </span>
             </div>
@@ -74,9 +74,9 @@ function BMIHistory({ history, onDelete }: BMIHistoryProps) {
             <p className="text-sm mt-1">
               น้ำหนัก: {record.bmi_weight} กก. | ส่วนสูง: {record.bmi_height}{" "}
               ซม. | อายุ: {record.bmi_age ?? "-"} ปี | เพศ:{" "}
-              {record.bmi_gender === "" ? "ชาย" : "หญิง"}
+              {record.bmi_gender === "MALE" ? "ชาย" : "หญิง"}
             </p>
-
+                  {/* {console.log(record)} */}
             <p
               className={`text-xs mt-0.5 ${
                 record.bmi_category === "OBESE"

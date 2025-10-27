@@ -3,7 +3,6 @@ import BeYouLogo from "../assets/images/BeYouBMI.webp"; // path relative จา�
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/login.js";
 
-import BeYouLogo from "../assets/images/BeYouBMI.webp";
 
 const Index = () => {
   const [username, setUsername] = useState("");
@@ -28,7 +27,7 @@ const Index = () => {
     
   
     
-    // const res = await login(email, username, dob, gender);
+    
     // const birthYear = new Date(dob).getFullYear();
     // const currentYear = new Date().getFullYear();
     // const age = currentYear - birthYear;
@@ -45,37 +44,17 @@ const Index = () => {
     // // };
 
     setLoading(true);
-    try {
-      const response = await fetch("http://localhost:4004/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, gender, dob }),
-      });
-
-      if (!response.ok) {
-        const errMsg = await response.text();
-        throw new Error(errMsg || "เข้าสู่ระบบไม่สำเร็จ");
-      }
-
-      const user = await response.json();
-
+      const user = await login(email, username, dob, gender);
       // บันทึกข้อมูลจาก backend ลง localStorage
       localStorage.setItem("userData", JSON.stringify(user));
 
       alert(`เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับ ${user.us_username}`);
-      console.log("✅ User from backend:", user);
-
-      // เคลียร์ form
+       navigate("/bmi/form");
       setUsername("");
       setEmail("");
       setGender("");
       setDob("");
-    } catch (error) {
-      console.error(error);
-      alert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ");
-    } finally {
-      setLoading(false);
-    }
+
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

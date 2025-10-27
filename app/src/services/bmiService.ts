@@ -56,8 +56,8 @@ function normalizeResponse(raw: any) {
   };
 }
 
-export async function fetchBmiStatistics(usId?: number): Promise<any> {
-  const body = { us_id: usId ?? 1 };
+export async function fetchBmiStatistics(usId?: number): Promise<any> { 
+  const body = { us_id: usId };
   const res = await api.post("/bmi/statistics", body, {
     headers: { "Content-Type": "application/json" },
   });

@@ -13,6 +13,7 @@ function History() {
       try {
         const res = await fetchBmiHistory(userData.us_email);
         setHistory(res); // ✅ ไม่ต้อง map แล้ว เพราะ type ตรงกับ backend
+    
       } catch (error) {
         console.error("โหลดข้อมูลไม่สำเร็จ:", error);
       }
