@@ -47,14 +47,7 @@ function History() {
           ประวัติการคำนวณทั้งหมด
         </h1>
 
-        {history.length > 0 && (
-          <button
-            onClick={handleClearAll}
-            className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg transition"
-          >
-            <Trash size={14} /> ล้างทั้งหมด
-          </button>
-        )}
+       
       </div>
 
       <input

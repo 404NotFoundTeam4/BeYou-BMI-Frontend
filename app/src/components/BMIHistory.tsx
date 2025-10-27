@@ -88,19 +88,7 @@ function BMIHistory({ history, onDelete }: BMIHistoryProps) {
             </p>
           </div>
 
-          {onDelete && (
-            <button
-              onClick={() => onDelete(record.bmi_id)}
-              className={`transition ${
-                record.bmi_category === "OBESE"
-                  ? "text-red-200 hover:text-white"
-                  : "text-red-500 hover:text-red-700"
-              }`}
-              title="ลบรายการนี้"
-            >
-              <Trash2 size={18} />
-            </button>
-          )}
+          
         </div>
       ))}
     </div>
