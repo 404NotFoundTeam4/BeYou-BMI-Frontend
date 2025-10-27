@@ -1,5 +1,5 @@
-import { Link, Outlet, useActionData } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "../styles/css/icon.css";
 import "../styles/css/Navbar.css";
@@ -17,8 +17,8 @@ import profilefemale from "../assets/images/gender/female.png";
 export const Navbar = () => {
   const [isopen, setopen] = useState(true);
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-   const [showHeart, setShowHeart] = useState(false);
-    useEffect(() => {
+  const [showHeart, setShowHeart] = useState(false);
+  useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
 
     if (isopen) {
@@ -31,38 +31,38 @@ export const Navbar = () => {
 
     return () => clearTimeout(timer);
   }, [isopen]);
-  const logout =() =>{
+  const logout = () => {
     localStorage.clear();
-  }
+  };
   return (
     <div className="flex w-full  bg-[#FAFAFA]">
       {/* Sidebar */}
-     
-        <div
-          className={`${
-            isopen ? "w-60" : "w-23"
-          }   text-white min-h-screen relative  shadow-xl  z-40 flex flex-col transition-all duration-300 bg-[#147e65]`}
-        >
-          <button
-            onClick={() => setopen(!isopen)}
-            className="absolute mt-8 -right-4  h-10 w-10 z-11   bg-[#099c7a] flex items-center justify-center rounded-full shadow-md hover:bg-[#0d6551] transition-all"
-          >
-            <Icon
-              icon="weui:arrow-filled"
-              width="20"
-              height="40"
-              className={` transition-transform duration-300 ${
-                isopen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
 
-          <div className="flex items-center justify-between h-25 w-full px-4 border-b-2 gap-2 relative z-10 ">
-            <img src={logo} alt="" className="h-13 w-13 z-10 " />
-            <section>
-              <div className="container">
-                <div className="content">
-                  {showHeart && (
+      <div
+        className={`${
+          isopen ? "w-60" : "w-23"
+        }   text-white min-h-screen relative  shadow-xl  z-40 flex flex-col transition-all duration-300 bg-[#147e65]`}
+      >
+        <button
+          onClick={() => setopen(!isopen)}
+          className="absolute mt-8 -right-4  h-10 w-10 z-11   bg-[#099c7a] flex items-center justify-center rounded-full shadow-md hover:bg-[#0d6551] transition-all"
+        >
+          <Icon
+            icon="weui:arrow-filled"
+            width="20"
+            height="40"
+            className={` transition-transform duration-300 ${
+              isopen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        <div className="flex items-center justify-between h-25 w-full px-4 border-b-2 gap-2 relative z-10 ">
+          <img src={logo} alt="" className="h-13 w-13 z-10 " />
+          <section>
+            <div className="container">
+              <div className="content">
+                {showHeart && (
                   <div className="heart-rate">
                     <svg
                       xml:space="preserve"
@@ -89,87 +89,109 @@ export const Navbar = () => {
 
                     <div className="fade-out"></div>
                   </div>
-                  )}
-                </div>
+                )}
               </div>
-            </section>
+            </div>
+          </section>
 
-            {/* {isopen && <p className="font-bold text-3xl">Logo</p>} */}
-          </div>
-
-          <div className="flex flex-col gap-4 mt-4 px-2">
-            <Link
-              to="/bmi/form"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
-            >
-              <FontAwesomeIcon
-                icon={faHome}
-                className="text-[30px] min-w-[30px] text-center"
-              />
-              {isopen && (
-                <span
-                  className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
-                >
-                  คำนวน
-                </span>
-              )}
-            </Link>
-
-            <Link
-              to="/bmi/history"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
-            >
-              <FontAwesomeIcon
-                icon={faClipboardList}
-                className="text-[30px] min-w-[30px] "
-              />
-              {isopen && (
-                <span
-                  className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
-                >
-                  ประวัติ
-                </span>
-              )}
-            </Link>
-
-            <Link
-              to="/bmi/statistics"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
-            >
-              <FontAwesomeIcon
-                icon={faChartLine}
-                className="text-[30px] min-w-[30px] "
-              />
-              {isopen && (
-                <span
-                  className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
-                >
-                  สถิติและวิเคราะห์
-                </span>
-              )}
-            </Link>
-               <Link
-              to="/"
-              onClick={logout}
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
-            >
-
-              <FontAwesomeIcon
-                icon={faRightFromBracket}
-                className="text-[30px] min-w-[30px] "
-              />
-             
-              {isopen && (
-                <span
-                  className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
-                >
-                  ออกจากระบบ
-                </span>
-              )}
-            </Link>
-          </div>
+          {/* {isopen && <p className="font-bold text-3xl">Logo</p>} */}
         </div>
-     
+
+        <div className="flex flex-col gap-4 mt-4 px-2">
+          <NavLink
+            to="/bmi/form"
+            className={({ isActive }) =>
+              `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
+                isActive
+                  ? "bg-[#0a9956] text-white"
+                  : "hover:bg-[#0d6551] text-white"
+              }`
+            }
+          >
+            <FontAwesomeIcon
+              icon={faHome}
+              className="text-[30px] min-w-[30px] text-center"
+            />
+            {isopen && (
+              <span
+                className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
+              >
+                คำนวน
+              </span>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/bmi/history"
+            className={({ isActive }) =>
+              `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
+                isActive
+                  ? "bg-[#0a9956] text-white"
+                  : "hover:bg-[#0d6551] text-white"
+              }`
+            }
+          >
+            <FontAwesomeIcon
+              icon={faClipboardList}
+              className="text-[30px] min-w-[30px] "
+            />
+            {isopen && (
+              <span
+                className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
+              >
+                ประวัติ
+              </span>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/bmi/statistics"
+            className={({ isActive }) =>
+              `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
+                isActive
+                  ? "bg-[#0a9956] text-white"
+                  : "hover:bg-[#0d6551] text-white"
+              }`
+            }
+          >
+            <FontAwesomeIcon
+              icon={faChartLine}
+              className="text-[30px] min-w-[30px] "
+            />
+            {isopen && (
+              <span
+                className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
+              >
+                สถิติและวิเคราะห์
+              </span>
+            )}
+          </NavLink>
+          <NavLink
+            to="/"
+            onClick={logout}
+            className={({ isActive }) =>
+              `py-3 flex items-center justify-start gap-4 rounded-2xl px-4 transition-all ${
+                isActive
+                  ? "bg-[#0a9956] text-white"
+                  : "hover:bg-[#0d6551] text-white"
+              }`
+            }
+          >
+            <FontAwesomeIcon
+              icon={faRightFromBracket}
+              className="text-[30px] min-w-[30px] "
+            />
+
+            {isopen && (
+              <span
+                className={`text-[18px] transition-all duration-300 whitespace-nowrap `}
+              >
+                ออกจากระบบ
+              </span>
+            )}
+          </NavLink>
+        </div>
+      </div>
 
       {/*  ส่วนขวา (Navbar + Main) */}
       <div className="flex flex-col flex-1 min-h-screen">
@@ -186,7 +208,9 @@ export const Navbar = () => {
             />
             <span className="text-[18px] font-normal flex flex-col ">
               <p>สวัสดี</p>
-              <p className="text-[18px] font-semibold">{userData.us_username}</p>
+              <p className="text-[18px] font-semibold">
+                {userData.us_username}
+              </p>
             </span>
           </div>
         </div>
