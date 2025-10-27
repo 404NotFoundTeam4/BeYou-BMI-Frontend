@@ -100,7 +100,7 @@ export const Navbar = () => {
           <div className="flex flex-col gap-4 mt-4 px-2">
             <Link
               to="/bmi/form"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
+              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] focus:bg-[#0a9956] px-4  transition-all"
             >
               <FontAwesomeIcon
                 icon={faHome}
@@ -117,7 +117,7 @@ export const Navbar = () => {
 
             <Link
               to="/bmi/history"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
+              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] focus:bg-[#0a9956] px-4  transition-all"
             >
               <FontAwesomeIcon
                 icon={faClipboardList}
@@ -134,7 +134,7 @@ export const Navbar = () => {
 
             <Link
               to="/bmi/statistics"
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
+              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] focus:bg-[#0a9956] px-4  transition-all"
             >
               <FontAwesomeIcon
                 icon={faChartLine}
@@ -151,7 +151,7 @@ export const Navbar = () => {
                <Link
               to="/"
               onClick={logout}
-              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] px-4  transition-all"
+              className="py-3 flex items-center justify-start gap-4 rounded-2xl hover:bg-[#0d6551] focus:bg-[#0a9956] px-4  transition-all"
             >
 
               <FontAwesomeIcon
