@@ -65,7 +65,7 @@ export const Navbar = () => {
                   {showHeart && (
                   <div className="heart-rate">
                     <svg
-                      xml:space="preserve"
+                      xmlSpace="preserve"
                       viewBox="0 0 150 73"
                       height="73px"
                       width="150px"

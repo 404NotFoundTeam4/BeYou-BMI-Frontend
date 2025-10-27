@@ -13,10 +13,9 @@ export type BMIRecord = {
 
 type BMIHistoryProps = {
   history: BMIRecord[];
-  onDelete?: (bmi_id: number) => void;
 };
 
-function BMIHistory({ history, onDelete }: BMIHistoryProps) {
+function BMIHistory({ history }: BMIHistoryProps) {
   if (history.length === 0) {
     return <p className="text-center text-gray-500">ยังไม่มีข้อมูลการคำนวณ</p>;
   }

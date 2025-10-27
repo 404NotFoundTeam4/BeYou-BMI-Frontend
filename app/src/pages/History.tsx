@@ -24,12 +24,6 @@ function History() {
     setHistory((prev) => prev.filter((item) => item.bmi_id !== bmi_id));
   };
 
-  const handleClearAll = () => {
-    if (confirm("ต้องการลบประวัติทั้งหมดหรือไม่?")) {
-      setHistory([]);
-    }
-  };
-
   const filteredHistory = history.filter((record) => {
     const keyword = search.toLowerCase();
     return (
