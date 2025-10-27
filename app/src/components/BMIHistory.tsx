@@ -1,3 +1,9 @@
+import {
+  formatLocalDateTime,
+  getThaiCategory,
+  getThaiGender,
+} from "../lib/formatters";
+
 export type BMIRecord = {
   bmi_id: number;
   bmi_created_at: string;
@@ -19,15 +25,6 @@ function BMIHistory({ history }: BMIHistoryProps) {
     return <p className="text-center text-gray-500">ยังไม่มีข้อมูลการคำนวณ</p>;
   }
 
-  function formatLocalDateTime(datetimeString: string) {
-    const date = new Date(datetimeString.replace(" ", "T"));
-    date.setHours(date.getHours() - 7);
-    return date.toLocaleString("th-TH", {
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
-  }
-
   return (
     <div className="space-y-4">
       {history.map((record) => (
@@ -37,15 +34,15 @@ function BMIHistory({ history }: BMIHistoryProps) {
             record.bmi_category === "NORMAL"
               ? "bg-green-100 border-green-300 text-green-900"
               : record.bmi_category === "UNDERWEIGHT"
-              ? "bg-yellow-100 border-yellow-300 text-yellow-900"
-              : record.bmi_category === "OVERWEIGHT"
-              ? "bg-orange-100 border-orange-300 text-orange-900"
-              : record.bmi_category === "OBESE"
-              ? "bg-gradient-to-r from-red-600 to-red-700 border-red-800 text-white"
-              : "bg-gray-50 border-gray-200"
+                ? "bg-yellow-100 border-yellow-300 text-yellow-900"
+                : record.bmi_category === "OVERWEIGHT"
+                  ? "bg-orange-100 border-orange-300 text-orange-900"
+                  : record.bmi_category === "OBESE"
+                    ? "bg-gradient-to-r from-red-600 to-red-700 border-red-800 text-white"
+                    : "bg-gray-50 border-gray-200"
           }`}
         >
-          <div>
+          <div className="flex-1">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold">
                 {record.bmi_value.toFixed(1)}
@@ -57,24 +54,17 @@ function BMIHistory({ history }: BMIHistoryProps) {
                     : "bg-white/70 text-gray-700"
                 }`}
               >
-                {record.bmi_category === "UNDERWEIGHT"
-                  ? "ผอม"
-                  : record.bmi_category === "NORMAL"
-                  ? "ปกติ"
-                  : record.bmi_category === "OVERWEIGHT"
-                  ? "ท้วม"
-                  : record.bmi_category === "OBESE"
-                  ? "อ้วน"
-                  : ""}
+                {/* 3. ใช้ตัวช่วยแปลงภาษาไทย */}
+                {getThaiCategory(record.bmi_category)}
               </span>
             </div>
 
             <p className="text-sm mt-1">
               น้ำหนัก: {record.bmi_weight} กก. | ส่วนสูง: {record.bmi_height}{" "}
               ซม. | อายุ: {record.bmi_age ?? "-"} ปี | เพศ:{" "}
-              {record.bmi_gender === "MALE" ? "ชาย" : "หญิง"}
+              {/* 3. ใช้ตัวช่วยแปลงภาษาไทย */}
+              {getThaiGender(record.bmi_gender || "")}
             </p>
-                  {/* {console.log(record)} */}
             <p
               className={`text-xs mt-0.5 ${
                 record.bmi_category === "OBESE"
@@ -82,11 +72,10 @@ function BMIHistory({ history }: BMIHistoryProps) {
                   : "text-gray-500"
               }`}
             >
+              {/* 3. ใช้ตัวช่วย format วันที่ */}
               {formatLocalDateTime(record.bmi_created_at)}
             </p>
           </div>
-
-          
         </div>
       ))}
     </div>
