@@ -7,9 +7,8 @@ const Index = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
-  const [dob, setDob] = useState(""); 
+  const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,14 +22,11 @@ const Index = () => {
     if (!username.trim() || !email.trim() || !gender || !dob) {
       return;
     }
-    
-  
-    
-    
+
     // const birthYear = new Date(dob).getFullYear();
     // const currentYear = new Date().getFullYear();
     // const age = currentYear - birthYear;
-    
+
     // // const mockUser = {
     // //   us_id: Math.floor(Math.random() * 10000),
     // //   us_name: username,
@@ -43,17 +39,16 @@ const Index = () => {
     // // };
 
     setLoading(true);
-      const user = await login(email, username, dob, gender);
-      // บันทึกข้อมูลจาก backend ลง localStorage
-      localStorage.setItem("userData", JSON.stringify(user));
+    const user = await login(email, username, dob, gender);
+    // บันทึกข้อมูลจาก backend ลง localStorage
+    localStorage.setItem("userData", JSON.stringify(user));
 
-      alert(`เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับ ${user.us_username}`);
-       navigate("/bmi/form");
-      setUsername("");
-      setEmail("");
-      setGender("");
-      setDob("");
-
+    alert(`เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับ ${user.us_username}`);
+    navigate("/bmi/form");
+    setUsername("");
+    setEmail("");
+    setGender("");
+    setDob("");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -77,21 +72,57 @@ const Index = () => {
           <div className="justify-center bg-white rounded-3xl pt-12 px-20 pb-20 shadow-2xl flex flex-col overflow-hidden">
             {/* Top Logo */}
             <div className="w-full flex justify-center items-center pb-6 border-b border-gray-200 mb-6">
-              <img src={BeYouLogo} alt="BeYou BMI Logo" className="h-16 md:h-20 object-contain" />
+              <img
+                src={BeYouLogo}
+                alt="BeYou BMI Logo"
+                className="h-16 md:h-20 object-contain"
+              />
             </div>
 
             {/* Form */}
             <div className="flex flex-col space-y-6">
-              <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} onKeyPress={handleKeyPress} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
-              <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} onKeyPress={handleKeyPress} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
-              <select value={gender} onChange={e => setGender(e.target.value)} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]">
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
+              />
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
+              >
                 <option value="">เลือกเพศ</option>
                 <option value="ชาย">ชาย</option>
                 <option value="หญิง">หญิง</option>
               </select>
-              <input type="date" value={dob} onChange={e => setDob(e.target.value)} className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]" />
+              <input
+                type={dob ? "date" : "text"}
+                placeholder="วัน/เดือน/ปีเกิด"
+                value={dob}
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => {
+                  if (!dob) e.target.type = "text";
+                }}
+                onChange={(e) => setDob(e.target.value)}
+                className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
+              />
 
-              <button onClick={handleLogin} disabled={loading} className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:opacity-95 hover:scale-[1.02] transition-all duration-300">
+              <button
+                onClick={handleLogin}
+                disabled={loading}
+                className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:opacity-95 hover:scale-[1.02] transition-all duration-300"
+              >
                 {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
               </button>
             </div>
