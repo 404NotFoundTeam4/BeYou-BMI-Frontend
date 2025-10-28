@@ -21,14 +21,12 @@ const Index = () => {
     if (!username.trim() || !email.trim() || !gender || !dob) {
       return;
     }
-    
-  
-    
+
     const res = await login(email, username, dob, gender);
     // const birthYear = new Date(dob).getFullYear();
     // const currentYear = new Date().getFullYear();
     // const age = currentYear - birthYear;
-    
+
     // // const mockUser = {
     // //   us_id: Math.floor(Math.random() * 10000),
     // //   us_name: username,
@@ -122,15 +120,19 @@ const Index = () => {
                 </select>
               </div>
 
-              {/* Date of Birth */}
               <div className="flex flex-col">
                 <label htmlFor="dob" className="text-gray-700 font-medium">
                   วันเกิด
                 </label>
                 <input
                   id="dob"
-                  type="date"
-                  value={dob }
+                  type={dob ? "date" : "text"}
+                  placeholder="วัน/เดือน/ปีเกิด"
+                  value={dob}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!dob) e.target.type = "text";
+                  }}
                   onChange={(e) => setDob(e.target.value)}
                   className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
                 />
