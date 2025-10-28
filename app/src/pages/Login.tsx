@@ -102,7 +102,9 @@ const Index = () => {
                 onChange={(e) => setGender(e.target.value)}
                 className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#80DFFF]"
               >
-                <option value="">เลือกเพศ</option>
+                <option value="" className="text-gray-400">
+                  เลือกเพศ
+                </option>
                 <option value="ชาย">ชาย</option>
                 <option value="หญิง">หญิง</option>
               </select>
