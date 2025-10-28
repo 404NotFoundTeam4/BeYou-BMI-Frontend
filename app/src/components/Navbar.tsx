@@ -217,7 +217,7 @@ export const Navbar = () => {
 
         {/* Main Content */}
         <main className="flex-1 bg-[#FAFAFA]">
-          <div className="w-full min-h-[calc(100vh-150px)] p-6">
+          <div className="w-full min-h-[calc(100vh-150px)]">
             <Outlet />
           </div>
         </main>
